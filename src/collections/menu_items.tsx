@@ -1,12 +1,11 @@
 import { buildCollection, buildProperty, EntityReference } from "firecms";
-import { MenuCategory } from "./menu_categories"; // Assuming both files are in the same directory
 
 export type MenuItem = {
   name: string;
   description: string;
   price: number;
-  category: EntityReference<MenuCategory>;
-  imageUrl?: string; 
+  category: EntityReference; // Reference to MenuCategory
+  imageUrl?: string;
   available: boolean;
   tags: string[];
 };
@@ -17,28 +16,28 @@ export const menuItemsCollection = buildCollection<MenuItem>({
   path: "menu-items",
   icon: "FoodBank",
   properties: {
-    name: {
+    name: buildProperty({
       name: "Name",
-      dataType: "string",
       validation: { required: true },
-    },
-    description: {
+      dataType: "string",
+    }),
+    description: buildProperty({
       name: "Description",
       dataType: "string",
-      // config: {
-      //   multiline: true,
-      // },
-    },
-    price: {
+      config: {
+        multiline: true,
+      } as any, // Type assertion 
+    }),
+    price: buildProperty({
       name: "Price",
       dataType: "number",
       validation: { required: true },
-    },
-    category: {
+    }),
+    category: buildProperty({ // Reference field
       name: "Category",
       dataType: "reference",
-      collectionPath: "menu-categories", 
-    },
+      collectionPath: "menu-categories",
+    }),
     imageUrl: buildProperty({
       name: "Image",
       dataType: "string",
@@ -46,21 +45,21 @@ export const menuItemsCollection = buildCollection<MenuItem>({
         mediaType: "image",
         storagePath: "menu-items",
         acceptedFiles: ["image/*"],
-        storeUrl: true, 
+        storeUrl: true,
       },
     }),
-    available: {
+    available: buildProperty({
       name: "Available",
       dataType: "boolean",
       defaultValue: true,
-    },
-    tags: {
+    }),
+    tags: buildProperty({
       name: "Tags",
       dataType: "array",
       description: 'Add tags like "vegetarian", "spicy", etc.',
-      of: {
+      of: buildProperty({
         dataType: "string",
-      },
-    },
+      }),
+    }),
   },
 });

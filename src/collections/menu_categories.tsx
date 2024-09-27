@@ -1,5 +1,6 @@
-import { buildCollection, buildProperty } from "firecms";
+import { buildCollection, buildProperty, EntityReference } from "firecms";
 
+// 1. Menu Categories
 export type MenuCategory = {
   name: string;
   description?: string;
@@ -11,33 +12,33 @@ export const menuCategoriesCollection = buildCollection<MenuCategory>({
   name: "Menu Categories",
   singularName: "Menu Category",
   path: "menu-categories",
-  icon: "List", 
+  icon: "List",
   properties: {
-    name: {
+    name: buildProperty({ 
       name: "Name",
-      dataType: "string",
       validation: { required: true },
-    },
-    description: {
+      dataType: "string",
+    }),
+    description: buildProperty({
       name: "Description",
       dataType: "string",
-      // config: {
-      //   multiline: true, 
-      // },
-    },
-    order: {
+      config: { 
+        multiline: true,
+      } as any, // Type assertion
+    }),
+    order: buildProperty({
       name: "Order",
       dataType: "number",
       description: "Lower numbers appear first",
-    },
-    imageUrl: buildProperty({ // Optional image for the category
+    }),
+    imageUrl: buildProperty({
       name: "Image",
       dataType: "string",
       storage: {
         mediaType: "image",
         storagePath: "menu-categories",
         acceptedFiles: ["image/*"],
-        storeUrl: true, 
+        storeUrl: true,
       },
     }),
   },

@@ -11,6 +11,7 @@ import "@fontsource/ibm-plex-mono";
 import { firebaseConfig } from "./firebase-config.ts";
 import { menuCategoriesCollection } from "./collections/menu_categories.tsx";
 import { menuItemsCollection } from "./collections/menu_items.tsx";
+import { blogPostsCollection } from "./collections/blog_posts.tsx";
 
 export default function App() {
   const myAuthenticator: Authenticator<FirebaseUser> = useCallback(
@@ -35,10 +36,10 @@ export default function App() {
 
   return (
     <FirebaseCMSApp
-      name={"EazzyStocks Admin"} 
+      name={"KING DUMPLINGS Admin"} 
       plugins={[]}
       authentication={myAuthenticator}
-      collections={[menuItemsCollection, menuCategoriesCollection]}
+      collections={[menuItemsCollection, menuCategoriesCollection, blogPostsCollection]}
       firebaseConfig={firebaseConfig}
     />
   );

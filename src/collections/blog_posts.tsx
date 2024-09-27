@@ -1,66 +1,57 @@
-import { buildCollection, buildProperty, EntityReference } from "firecms";
-import { MenuCategory } from "./menu_categories"; // Assuming both files are in the same directory
+import { buildCollection, buildProperty } from "firecms";
 
-export type MenuItem = {
-  name: string;
-  description: string;
-  price: number;
-  category: EntityReference<MenuCategory>;
-  imageUrl?: string; 
-  available: boolean;
-  tags: string[];
+export type BlogPost = {
+  title: string;
+  slug: string; 
+  content: string;
+  published: boolean;
+  publishedDate?: Date; 
+  featuredImage?: string;
 };
 
-export const menuItemsCollection = buildCollection<MenuItem>({
-  name: "Menu Items",
-  singularName: "Menu Item",
-  path: "menu-items",
-  icon: "FoodBank",
+export const blogPostsCollection = buildCollection<BlogPost>({
+  name: "Blog Posts",
+  singularName: "Blog Post",
+  path: "blog-posts",
+  icon: "Newspaper",
   properties: {
-    name: {
-      name: "Name",
+    title: buildProperty({ 
+      name: "Title",
       dataType: "string",
       validation: { required: true },
-    },
-    description: {
-      name: "Description",
+    }),
+    slug: buildProperty({
+      name: "Slug",
       dataType: "string",
-      // config: {
-      //   multiline: true,
-      // },
-    },
-    price: {
-      name: "Price",
-      dataType: "number",
-      validation: { required: true },
-    },
-    category: {
-      name: "Category",
-      dataType: "reference",
-      collectionPath: "menu-categories", 
-    },
-    imageUrl: buildProperty({
-      name: "Image",
+      description: "URL-friendly version of the title (auto-generated)",
+      // You'll need to implement slug generation logic
+    }),
+    content: buildProperty({
+      name: "Content",
+      dataType: "string",
+      config: {
+        multiline: true,
+        wysiwyg: true, 
+      } as any, // Type assertion
+    }),
+    published: buildProperty({
+      name: "Published",
+      dataType: "boolean",
+      defaultValue: false,
+    }),
+    publishedDate: buildProperty({
+      name: "Published Date",
+      dataType: "date",
+    }),
+    featuredImage: buildProperty({
+      name: "Featured Image",
       dataType: "string",
       storage: {
         mediaType: "image",
-        storagePath: "menu-items",
+        storagePath: "blog-posts",
         acceptedFiles: ["image/*"],
-        storeUrl: true, 
+        storeUrl: true,
       },
     }),
-    available: {
-      name: "Available",
-      dataType: "boolean",
-      defaultValue: true,
-    },
-    tags: {
-      name: "Tags",
-      dataType: "array",
-      description: 'Add tags like "vegetarian", "spicy", etc.',
-      of: {
-        dataType: "string",
-      },
-    },
   },
 });
