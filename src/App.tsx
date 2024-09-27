@@ -9,8 +9,8 @@ import "typeface-rubik";
 import "@fontsource/ibm-plex-mono";
 
 import { firebaseConfig } from "./firebase-config.ts";
-import { usersCollection } from "./collections/users.tsx";
-import { tickersCollection } from "./collections/tickers.tsx";
+import { menuCategoriesCollection } from "./collections/menu_categories.tsx";
+import { menuItemsCollection } from "./collections/menu_items.tsx";
 
 export default function App() {
   const myAuthenticator: Authenticator<FirebaseUser> = useCallback(
@@ -38,7 +38,7 @@ export default function App() {
       name={"EazzyStocks Admin"} 
       plugins={[]}
       authentication={myAuthenticator}
-      collections={[usersCollection, tickersCollection]}
+      collections={[menuItemsCollection, menuCategoriesCollection]}
       firebaseConfig={firebaseConfig}
     />
   );
